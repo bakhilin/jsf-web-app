@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Insert Data</title>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <h:outputScript library="js" name="canvas.js"/>
+    <h:outputScript library="js" name="validPointLib.js" />
+    <h:outputScript library="js" name="checkPoint.js" />
+</h:head>
+<h:body onload="draw();watch();drawPoints()">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script type="text/javascript">
+        
+    </script>
+
+
+    <f:view>
+        <header id="header">
+            <div>
+                Бахилин Никита Витальевич P3234 Вариант №9999
+            </div>
+            <div id="watch-block">
+                <div id="main-content">
+                    <div id="clock"></div>
+                </div>
+            </div>
+
+        </header>
+
+
+        <div styleClass="canvas-block" id="canvas-block">
+            <canvas id="canvas" onclick="canvasClick()" width="300" height="300"
+            style="background: #eeeeee; border-radius: 10px"></canvas>
+        </div>
+
+<script type="text/javascript">
+        const canvas = document.getElementById('canvas');
+
+        function drawPoints(){
+            let i = 0;
+            for (let key in localStorage){
+                let ctx = canvas.getContext("2d");            
+                ctx.beginPath();
+                let r = document.getElementById("form:radius").value;
+                let x = key;
+                let y = localStorage.getItem(key);
+                //alert("x="+x + " y=" + y);
+                let color = "red";
+                let point = checkPointValid(r, x, y);
+
+                pointX = point.pointX;
+                pointY = point.pointY;
+
+                if(checkPoint(pointX, pointY, r)){
+                    color= "yellow";
+                }
+                ctx.fillStyle = color;
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+                i = i+ 1;
+                //console.log(key + " " + localStorage.getItem(key));
+            }
+
+        }
+
+        
+
+
+    function canvasClick() {
+        let canvas = document.getElementById('canvas');
+        canvas.addEventListener('click', event => {
+            getPoint();
+        });
+    }
+
+    function getCoordinatePosition() {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        return {x: x, y: y}
+    }
+
+    function getPoint() {
+        canvas.addEventListener('mousedown', function (e) {
+            let r = document.getElementById("form:radius").value;
+            if(r != 0) {
+                let data = getCoordinatePosition(canvas, e)
+
+                localStorage.setItem(data.x, data.y);
+
+                
+                // let item = localStorage.getItem(data.x);                
+
+                // for (let key in localStorage){
+                      
+                //     //console.log(key + " " + localStorage.getItem(key));
+                // }
+
+                let pointX = Math.round(data.x);
+                let pointY = Math.round(data.y);
+
+                let point = checkPointValid(r, data.x, data.y);
+
+                pointX = point.pointX;
+                pointY = point.pointY;
+
+
+                let ctx = canvas.getContext("2d");
+
+                ctx.beginPath();
+                let color = "red";
+
+                if(checkPoint(pointX, pointY, r)){
+                    color= "yellow";
+                    //localStorage.setItem(data.x, data.y);
+                }
+
+                let flag = checkPoint(pointX, pointY, r);
+
+                ctx.fillStyle = color;
+                ctx.arc(data.x, data.y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+
+                //alert(flag + " " + pointX + " " + pointY + " " + r);
+             
+
+                document.getElementById("form:x").value = pointX;
+                document.getElementById("form:y").value = pointY;
+                document.getElementById("form:radius").value = r;
+                
+                let sendRequestButton = document.getElementById("form:sendRequest");
+                sendRequestButton.click();
+               
+            } else {
+                alert("R is undefined");
+            }
+        });
+    }
+
+    
+
+</script>    
+
+ <script type="text/javascript">
+    function watch(){
+
+    window.setInterval(function(){
+
+    var now = new Date();
+
+    var clock = document.getElementById("clock");
+
+    clock.innerHTML = now.toLocaleTimeString();
+
+    },8000);
+    };
+</script> 
+
+<script type="text/javascript">
+    function hideCanvas(){
+        document.getElementById('canvas').style.display="none";
+    }
+</script>
+
+        <script type="text/javascript">
+            if(document.getElementById("form:radius").value !=0) {
+                document.getElementById("r-block").value = document.getElementById("form:radius").value;
+            }
+        </script>
+
+        <div styleClass="r-block">
+            <h:outputText id="r-block"></h:outputText>
+        </div>
+
+        <h:form id="form" styleClass="form">
+            <h:inputHidden id="x" value="#{model.x}" />
+            <h:inputHidden id="radius" value="#{model.r}" />                    
+            <h:messages showDetail="true" /> 
+
+            <div styleClass="form-block">
+                <h:outputText value="Choose X : " />
+                <h:selectOneMenu id="xCoordinate" name="x"  onchange="setX(this)">
+                    <f:selectItem id="item" itemLabel="" itemValue=""  />
+                    <f:selectItem id="item1" itemLabel="-4" itemValue="-4"  />
+                    <f:selectItem id="item2" itemLabel="-3" itemValue="-3"  />
+                    <f:selectItem id="item3" itemLabel="-2" itemValue="-2"  />
+                    <f:selectItem id="item4" itemLabel="-1" itemValue="-1"  />
+                    <f:selectItem id="item5" itemLabel="0" itemValue="0"  />
+                    <f:selectItem id="item6" itemLabel="1" itemValue="1"  />
+                    <f:selectItem id="item7" itemLabel="2" itemValue="2" />
+                    <f:selectItem id="item8" itemLabel="3" itemValue="3"/>
+                    <f:selectItem id="item9" itemLabel="4" itemValue="4" />
+                </h:selectOneMenu>
+            </div>
+
+            <div styleClass="form-block">
+                <h:outputText value="Enter Y : "/>
+                <h:message for="y" style="color:red" />
+                <h:inputText id="y" value="#{model.y}" required="true"> 
+                    <!-- <f:validateLength minimum="1" maximum="5" /> -->
+                    <f:validateDoubleRange  minimum="-3" maximum="5" />
+                </h:inputText>
+            </div>
+            <div styleClass="form-block">
+                <h:outputText value="Choose R:" />
+
+                <h:commandLink id="r1" value="1" onclick="setR(1);hideCanvas()" styleClass="radius"/>
+                <h:commandLink id="r2" value="2" onclick="setR(2);hideCanvas()"  styleClass="radius"/>
+                <h:commandLink id="r3" value="3" onclick="setR(3);hideCanvas()" styleClass="radius"/>
+                <h:commandLink id="r4" value="4" onclick="setR(4);hideCanvas()" styleClass="radius"/>
+            </div>           
+
+
+            <div id="btn-block">
+                <h:commandButton id="submitBtn" value="отправить"  action="#{model.add}"/>
+            </div>
+            <h:commandButton id="sendRequest" value="отправить" action="#{model.add}" style="opacity: 0;">
+                <f:ajax execute="form" />
+            </h:commandButton>
+        </h:form>
+
+
+    
+
+        <!-- <h:form enctype="multipart/form-data"> -->
+            
+
+    </f:view>
+
+</h:body>
+</html>
+

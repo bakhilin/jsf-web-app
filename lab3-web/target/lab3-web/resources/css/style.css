@@ -1,0 +1,110 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: bisque;
+}
+
+.form{
+    background-color:aliceblue;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius:10px;
+}
+
+.radius{
+    margin: 5px;
+    padding: 5px;
+}
+
+.radius::after{
+    background:black;
+}
+
+.radius:hover {
+    background-color: black;
+    color:white;
+}
+
+#canvas-block{
+    width: fit-content;
+    margin: 20px auto;
+}
+
+
+
+#btn-block{
+    width: fit-content;
+    margin: 5px auto;
+}
+
+
+#form #btn-block  input {
+    background-color:#333;
+    padding: 5px;
+    color:white;
+    border-radius:10px;
+}
+
+#form #btn-block  input:hover{
+    font-weight: 600;
+}
+
+#header{
+    background-color: aqua;
+    padding: 10px;
+    margin: 10px;
+    border-radius:10px;
+    text-align: center;
+}
+
+#clock {
+    color: #000;
+    font-weight: bold;
+    font-size: 30px;    
+}
+
+#dt1{
+    margin: 0 auto;
+}
+
+table,
+td {
+  border: 1px solid #333;
+  padding: 5px;
+}
+
+thead,
+tfoot {
+  background-color: #333;
+  color: #fff;
+}
+
+
+#form-delete {
+    width:fit-content;
+    margin: 10px auto;
+    color:white;
+}
+
+#form-delete input {
+    background-color:#333;
+    color:white;
+    padding: 5px;
+}
+
+#form-delete input:hover {
+    font-weight: 600;
+    color:black;
+    background-color:white;
+}
+
+ a {
+    font-weight: 600;
+    color:#000;
+    text-decoration-line: none;
+}

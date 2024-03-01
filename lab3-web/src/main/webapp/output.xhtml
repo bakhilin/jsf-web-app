@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+<h:body>
+    <f:view>
+        <header id="header">
+            <div>
+               Бахилин Никита Витальевич P3234 Вариант №9999
+            </div>
+            <h:link value="вернуться на главную" outcome="insert" />
+        </header>
+
+        <h:form id="form-delete">
+            <h:commandButton id="btn" action="#{dataAction.delete}" value="delete all points" />
+        </h:form>
+
+        <!-- <h:form enctype="multipart/form-data"> -->
+            <h:dataTable id="dt1" value="#{dataAction.models}" var="data">
+
+                <h:column>
+                    <f:facet name="header"><h:outputText value="x"/></f:facet>
+                    <h:outputText value="#{data.x}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputText value="y"/></f:facet>
+                    <h:outputText value="#{data.y}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputText value="r"/></f:facet>
+                    <h:outputText value="#{data.r}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header"><h:outputText value="result"/></f:facet>
+                    <h:outputText value="#{data.valid}" />
+                </h:column>
+
+            </h:dataTable>
+        <!-- </h:form> -->
+    </f:view>
+</h:body>
+</html>
